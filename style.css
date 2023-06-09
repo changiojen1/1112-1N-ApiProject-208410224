@@ -1,0 +1,108 @@
+body {
+    font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
+    font-size: 20px;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #9DC8C8;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+textarea {
+    resize: none;
+    width: calc(100% - 20px);
+    margin: 5px 0;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.output textarea {
+    background-color: #f9f9f9;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    background-color: #519D9E;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #548687;
+}
+
+/* 清除默認的下拉箭頭 */
+.dropdown::-ms-expand {
+    display: none;
+}
+
+.dropdown {
+    appearance: none;
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+    box-shadow: none;
+    outline: none;
+  }
+
+.dropdown::after {
+    content: "\25BC";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.dropdown option {
+    background-color: #fff;
+    color: #333;
+}
+
+/* 修改滾動條軌道（track）的樣式 */
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+/* 修改滾動條滑塊（thumb）的樣式 */
+::-webkit-scrollbar-thumb {
+    background-color: #58C9B9;
+    border-radius: 5px;
+}
+
+/* 修改滾動條滑塊在 hover 狀態時的樣式 */
+::-webkit-scrollbar-thumb:hover {
+    background-color: #519D9E;
+}
+
+/* 修改滾動條邊框的樣式 */
+::-webkit-scrollbar {
+    width: 11px;
+    background-color: #f1f1f1;
+}

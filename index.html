@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Translate</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <h1>JSAPI Project <br><i class="fa-solid fa-language"></i> 翻譯</h1>
+  <div class="container">
+    <div class="input">
+      <textarea name="input" id="input" cols="30" rows="10" placeholder="輸入要翻譯的文字"></textarea>
+    </div>
+    <div class="output">
+      <textarea readonly name="output" id="output" cols="30" rows="10" placeholder="翻譯結果"></textarea>
+    </div>
+    <div class="buttons">
+      <div>
+        <select id="from" class="dropdown">
+          <option value="auto">Auto</option>
+        </select>
+        <i class="fa-solid fa-arrow-right"></i>
+        <select id="to" class="dropdown">
+        </select>
+        <button id="translate">翻譯</i></button>
+      </div>
+      <div>
+        <button id="copy"><i class="fa-regular fa-copy"></i></button>
+        <button id="clear"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+    <script src="https://kit.fontawesome.com/9ce73c1069.js" crossorigin="anonymous"></script>
+    <script type="module" src="./app.js"></script>
+</body>
+
+</html>
