@@ -1,5 +1,5 @@
 body {
-    font-family: "Helvetica", "Arial","LiHei Pro","黑體-繁","微軟正黑體", sans-serif;
+    font-family: "Helvetica", "Arial", "LiHei Pro", "黑體-繁", "微軟正黑體", sans-serif;
     font-size: 20px;
     background-color: #f9f9f9;
     margin: 0;
@@ -17,6 +17,7 @@ h1 {
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 textarea {
@@ -60,6 +61,7 @@ button:hover {
 }
 
 .dropdown {
+    height: 44px;
     appearance: none;
     padding: 8px;
     font-size: 16px;
@@ -69,7 +71,7 @@ button:hover {
     color: #333;
     box-shadow: none;
     outline: none;
-  }
+}
 
 .dropdown::after {
     content: "\25BC";
@@ -85,24 +87,56 @@ button:hover {
     color: #333;
 }
 
-/* 修改滾動條軌道（track）的樣式 */
 ::-webkit-scrollbar-track {
     background-color: #f1f1f1;
 }
 
-/* 修改滾動條滑塊（thumb）的樣式 */
 ::-webkit-scrollbar-thumb {
     background-color: #58C9B9;
     border-radius: 5px;
 }
 
-/* 修改滾動條滑塊在 hover 狀態時的樣式 */
 ::-webkit-scrollbar-thumb:hover {
     background-color: #519D9E;
 }
 
-/* 修改滾動條邊框的樣式 */
 ::-webkit-scrollbar {
     width: 11px;
     background-color: #f1f1f1;
+}
+
+.file-upload {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #519D9E;
+    color: #fff;
+    margin: 20px;
+    width: 400px;
+    height: 150px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.file-upload i{
+    margin-right: 10px;
+}
+
+.file-upload:hover {
+    background-color: #548687;
+}
+
+#fileInput {
+    display: none;
+}
+
+.existFile{
+    display: inline-table;
+    background-color: #519D9E;
+    color: #fff;
+    margin: 20px;
+    width: 400px;
+    height: 150px;
+    border-radius: 10px;
+    cursor: pointer;
 }

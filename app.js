@@ -10,6 +10,8 @@ const countries = {
   "br-FR": "Breton",
   "bs-BA": "Bosnian",
   "ca-ES": "Catalan",
+  "zh-CN": "Chinese (Simplified)",
+  "zh-TW": "Chinese (Traditional)",
   "cop-EG": "Coptic",
   "cs-CZ": "Czech",
   "cy-GB": "Welsh",
@@ -115,32 +117,39 @@ let options = {
 //transBox
 const input = document.querySelector("#input");
 const output = document.querySelector("#output");
+
 //btns
 const translateBtn = document.querySelector("#translate");
 const clearBtn = document.querySelector("#clear");
 const copyBtn = document.querySelector("#copy");
 
 const select = document.querySelectorAll("select");
+const selectFrom = select[0];
+const selectTo = select[1];
+
+//dropArea
+const dropArea = document.querySelector("#dropArea");
+const fileInput = document.querySelector("#fileInput");
+let uploadedFiles = [];
 
 document.addEventListener("DOMContentLoaded", () => {
-  select.forEach((s) => {
+  select.forEach((item) => {
     for (const key in countries) {
       const option = document.createElement("option");
       option.value = countries[key];
       option.textContent = countries[key];
-      s.appendChild(option);
+      item.appendChild(option);
       // console.log(countries[key]);
     }
   });
 });
 
-translateBtn.addEventListener("click", () => {
-  translate(input.value);
-});
-
 clearBtn.addEventListener("click", () => {
   input.value = "";
   output.value = "";
+  dropArea.innerHTML = '<i class="fa fa-cloud-upload"></i>  拖曳或點擊上傳檔案';
+  dropArea.className = "file-upload";
+  uploadedFiles = [];
 });
 
 copyBtn.addEventListener("click", () => {
@@ -154,24 +163,120 @@ copyBtn.addEventListener("click", () => {
     });
 });
 
-const optionEdit = (from, to, text) => {
+translateBtn.addEventListener("click", () => {
+  translate(input.value);
+});
+
+const optionEdit = (text) => {
+  let from;
+  let to;
+  for (const key in countries) {
+    if (countries[key] === selectFrom.value) from = key;
+    else from = "auto";
+    if (countries[key] === selectTo.value) to = key;
+  }
+
   options.body = JSON.stringify({
     from: `${from}`,
     to: `${to}`,
     q: `${text}`,
   });
+  console.log(options.body);
 };
 
 const translate = async (text) => {
   if (text.length > 0) {
-    optionEdit(text);
-    try {
-      const response = await fetch(url, options);
-      const result = await response.json();
-      // console.log(result);
-      output.value = result;
-    } catch (error) {
-      console.error(error);
+    const transText = await fetchAPI(text);
+    if (typeof transText[0] === "string") {
+      output.value = transText;
+    } else output.value = transText[0][0];
+  }
+  if (uploadedFiles.length > 0) {
+    let blob;
+    for (const file of uploadedFiles) {
+      const fileContent = await readFileContent(file);
+      const transContent = await fetchAPI(fileContent);
+      let result;
+      if (typeof transContent[0] != "string") {
+        result = transContent[0][0];
+      } else result = transContent;
+      // console.log("fileContent", fileContent);
+      if (file.type === "text/plain") {
+        blob = new Blob([result], { type: "text/plain" });
+        const downloadLink = URL.createObjectURL(blob);
+        const linkElement = document.createElement("a");
+        linkElement.href = downloadLink;
+        const fileName = file.name.substring(0, file.name.lastIndexOf("."));
+        linkElement.download = `${fileName}_${selectTo.value}.txt`;
+        linkElement.click();
+        URL.revokeObjectURL(downloadLink);
+      }
     }
-  } else console.log("請輸入文字");
+  }
+};
+
+dropArea.addEventListener("drop", (e) => {
+  e.preventDefault();
+  const files = e.dataTransfer.files;
+  uploadFileHandler(files);
+  console.log("uploadedFiles", uploadedFiles);
+});
+
+dropArea.addEventListener("dragover", (e) => {
+  e.preventDefault();
+});
+
+dropArea.addEventListener("click", () => {
+  fileInput.click();
+});
+
+fileInput.addEventListener("change", () => {
+  uploadFileHandler(fileInput.files);
+  console.log("uploadedFiles", uploadedFiles);
+});
+
+const uploadFileHandler = (files) => {
+  console.log(files);
+  const allowedTypes = ["text/plain"];
+  const allowedFiles = Array.from(files).filter((file) =>
+    allowedTypes.includes(file.type)
+  );
+  uploadedFiles.push(...allowedFiles);
+  showUploadFiles(uploadedFiles);
+};
+
+const showUploadFiles = (files) => {
+  if (uploadedFiles) {
+    dropArea.className = "existFile";
+    dropArea.textContent = "";
+  }
+  for (const file of files) {
+    const fileEl = document.createElement("div");
+    fileEl.textContent = `${file.name}`;
+    dropArea.appendChild(fileEl);
+  }
+};
+
+const readFileContent = (file) => {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target.result;
+      if (content) {
+        resolve(content);
+      }
+    };
+    reader.readAsText(file);
+  });
+};
+
+const fetchAPI = async (text) => {
+  optionEdit(text);
+  try {
+    const response = await fetch(url, options);
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
 };
